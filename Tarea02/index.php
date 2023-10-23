@@ -82,15 +82,11 @@
                     </div>
                 </div>    
                 <div class="col-md-4 mt-3"> 
-                <input type="submit" class="btn btn-outline-primary" id="butAniadirSocio" value="enviar" name="commentData">
-</div>
-            </form> 
-        </div>
-
+                    <input type="submit" class="btn btn-outline-primary" id="butAniadirSocio" value="Enviar" name="commentData">
+                </div>
+            </form>
+        </div> 
         <hr>
-        <!-------------LAMADA SCRIPTS---------------------->
-        <script type="text/javascript" src="js/scripts.js"></script>
-
     </body>
 
 </html>
