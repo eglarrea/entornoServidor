@@ -40,6 +40,11 @@ $arrayTextosError = array(
   "fechaSuperior" => "Fecha de alquiler tiene que ser igual o superior a la actual",
   "dni" => "DNI es obligatorio",
   "dniformato" => "El formato del dni no es correcto",
+  "libroNoExiste"=>"El libro buscado no exite en la biblioteca",
+  "libroNoDevuelto"=>"Tienes libro/s que no has devuelto en fecha",
+  "libroReservado"=>"Ya tienes ese libro reservado",
+  "reservasMaximas"=>"Ya has reservado el número máximo de libros permitidos",
+  "todosReservado"=>"El libro no esta disponible en la biblioteca en estos momentos"
 );
 
 /**
@@ -114,7 +119,7 @@ function validarFormulario() {
 /**
  * Función comprobar si hay algún error en el formulario
  *  */  
-  function hayErroresEnFormulario(){
+function hayErroresEnFormulario(){
     global  $arrayMensPerson;
 
     $sw_error=FALSE;
@@ -125,22 +130,10 @@ function validarFormulario() {
         break; 
       }  
     }
-    return  $sw_error;
-  }
-
-/**
- * Funcion para pasar el valor a un campo
- *  */  
-function anadirValorACampoFormulario($campo,$strValor){
-  global  $arrayFormulario  ;
-  $campos=explode(".",$campo,2);
-  if(count($campos)==2){
-    $arrayFormulario[$campos[0]][$campos[1]]=trim($strValor);
-  }else{
-    $arrayFormulario[$campo]=trim($strValor);
-  }
+  return  $sw_error;
 }
 
+// Proceso que se ejecuta si se ha enviado un post desde el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   session_start();
   unset($_SESSION[CLAVE_SESSION_ALQUILER]);
@@ -151,7 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $existeLibro=findLibroByISBN($arrayFormulario['libros']['isbn']);
 
     if(gettype($existeLibro)=="boolean"){
-      $arrayErrorGene="El libro buscado no exite";
+      $arrayErrorGene=$arrayTextosError['libroNoExiste'];
     }else{
       if(findLibroDisponibleByISBN($arrayFormulario['libros']['isbn'])!=false){
         $existeUsuario=getUsuarioByDNI($arrayFormulario['dni']);
@@ -161,45 +154,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           $numeroReservas=getUsuarioCantidadReservas($arrayFormulario['dni']);
           if($numeroReservas==true){
             if(isUsuarioLibroSuperaFechaDevolucion($arrayFormulario['dni'])){
-              $arrayErrorGene="Tienes libro/s que no has devuelto en fecha";
+              $arrayErrorGene=$arrayTextosError['libroNoDevuelto'];
             }else{
               if(!getUsuarioTieneEseLibro($arrayFormulario['dni'],$arrayFormulario['libros']['isbn'])){
                 guardarReservar($arrayFormulario);
                 $_SESSION[CLAVE_SESSION_ALQUILER] = $arrayFormulario;
+                $_SESSION["datosLibro"] =  $existeLibro;              
                 header("Location:libroAlquilado.php");
               }else{
-                $arrayErrorGene="Ya tienes ese libro reservado";
+                $arrayErrorGene=$arrayTextosError['libroReservado'];
               }
             }
           }else{
-            $arrayErrorGene="Reservas maximas permitidas";
+            $arrayErrorGene=$arrayTextosError['reservasMaximas'];
           }
       }
     }else{
-      $arrayErrorGene="El libro no esta disponible en la biblioteca en estos momentos";
+      $arrayErrorGene=$arrayTextosError['todosReservado'];
     }
-    }
-
-    /*$data = file_get_contents("model/reservas.json");
-    $reservas = json_decode($data, true);
-   
-    $found_key = array_search($arrayFormulario['dni'], array_column($reservas['reservas'], 'dni'));
-    array_push($reservas['reservas'], $arrayFormulario);
-    foreach ($reservas as $reserva) {
-      echo '<pre>';
-      print_r($reserva);
-      echo '</pre>';
-  }*/
-
-  //guardarFicheroJson($reservas,ROUTE_FILE_DATA_RESERVAS);
-    /*$json_string = json_encode($reservas);
-    $file = 'model/reservas.json';
-    file_put_contents($file, $json_string);*/
-
-    
-
-// Set session variables
-   
   }
+ }
 }
 ?>

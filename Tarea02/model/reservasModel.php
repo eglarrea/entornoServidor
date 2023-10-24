@@ -12,11 +12,20 @@ function getAllReservas(){
     return $reservas;
 }
 
+
 function getUsuarioByDNI($strDni){
     $reservas= getAllReservas();
     $found_key=array_search($strDni,array_column($reservas,"dni"));
     if(gettype($found_key)=="integer"){
         return $reservas[$found_key];
+    }
+    return false;
+}
+function gePosiciontUsuarioByDNI($strDni){
+    $reservas= getAllReservas();
+    $found_key=array_search($strDni,array_column($reservas,"dni"));
+    if(gettype($found_key)=="integer"){
+        return $found_key;
     }
     return false;
 }
@@ -39,7 +48,7 @@ function getUsuarioTieneEseLibro($strDni,$strISBN){
     $usuario = getUsuarioByDNI($strDni);
     if(gettype($usuario)=='array'){
         $found_key=array_search($strISBN,array_column($usuario['libros'],"isbn"));  
-        if( $found_key!=false){
+        if(gettype($found_key)=='integer'){
             return true;
         }else{
             return false;
@@ -55,7 +64,7 @@ function isUsuarioLibroSuperaFechaDevolucion($strDni){
             foreach ($usuario["libros"] as $libro){
                 $fechaRetorno=date("Ymd",strtotime($libro['fecha']."+ ".NUMERO__MAXIMO_DIAS."days"));
                 $fecha_actual = date("Ymd");
-                if($fechaRetorno>$fecha_actual){
+                if($fechaRetorno<$fecha_actual){
                     return true;
                 }
                 
@@ -74,37 +83,15 @@ function guardarReservar($datosFormulario){
         return false;
     }else{
         if(reservarLibroByISBN($datosFormulario['libros']['isbn'])){
-            $found_key = getUsuarioByDNI($datosFormulario['dni']);
-            if($found_key!=false){
+            $found_key = gePosiciontUsuarioByDNI($datosFormulario['dni']);
+            if(gettype($found_key)=='integer'){
               array_push($reservas[$found_key]['libros'], array("isbn"=>$datosFormulario['libros']['isbn'], "fecha"=>$datosFormulario['libros']['fecha']));
             }else{
                $myarray[] = array("isbn"=>$datosFormulario['libros']['isbn'], "fecha"=>$datosFormulario['libros']['fecha']);
-               array_push($reservas,array('dni'=>$datosFormulario['dni'],'libros'=> $myarray));
-               guardarFicheroJson($reservas, ROUTE_FILE_DATA_RESERVAS);
+               array_push($reservas,array('dni'=>$datosFormulario['dni'],'nombre'=>$datosFormulario['nombre'],'apellido'=>$datosFormulario['apellido'],'email'=>$datosFormulario['mail'],'libros'=> $myarray));
             }
+            guardarFicheroJson($reservas, ROUTE_FILE_DATA_RESERVAS);
         }
-      /*  if($libroReserva['numejemplares']-$libroReserva['numejemplaresPrestados']<=0){
-            return false;
-        }else{
-            $found_key = getUsuarioByDNI($strDni);
-            if($found_key!=false){
-              array_push($reservas[$found_key]['libro'], array("isbm"=>$datosFormulario['libro'], "fecha"=>$datosFormulario['fecha']));
-            }else{
-
-            }
-
-            
-           /* $found_key = array_search($datosFormulario['dni'], array_column($reservas, 'dni'));
-
-            $found_key = array_search($datosFormulario['libro'], array_column($libros, 'isbn'));
-            if($found_key!=false){
-              /*  $libros[$found_key]['numejemplaresPrestados']+= 1;
-                $json_string = json_encode($libros);
-                $file = '.model/libros.json';
-                file_put_contents($file, $json_string);
-                return true;*/
-           // }
-      // } 
     }
 }
 

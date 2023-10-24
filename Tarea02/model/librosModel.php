@@ -34,7 +34,7 @@ function getLibrosTableRows(){
 function findLibroByISBN($srtFind){
     $libros= getAllLibros();
     $found_key = array_search($srtFind, array_column($libros, 'isbn'));
-    if($found_key!=false){
+    if(gettype($found_key)=='integer'){
         return $libros[$found_key];
     }
     return false;
@@ -69,7 +69,7 @@ function reservarLibroByISBN($srtFind){
             return false;
         }else{
             $found_key = array_search($srtFind, array_column($libros, 'isbn'));
-            if($found_key!=false){
+            if(gettype($found_key)=='integer'){
                 $libros[$found_key]['numejemplaresPrestados']+= 1;
                 guardarFicheroJson($libros, ROUTE_FILE_DATA_LIBROS);
                 return true;

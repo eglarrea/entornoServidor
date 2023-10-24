@@ -33,9 +33,9 @@ include_once('./lib/constComunes.php');
     }
 ?>
 <h1>Nombre de Usuario: <?php echo $_SESSION["datosAlquiler"]['nombre'];?></h1>
-<h1>Fecha de devolución:<?php  echo $_SESSION["datosAlquiler"]['fecha'];?></h1>
+<h1>Fecha de devolución:<?php  echo $_SESSION["datosAlquiler"]['libros']['fecha'];?></h1>
 <h1>DNI: <?php echo $_SESSION["datosAlquiler"]['dni'];?></h1>
-
+<img src='<?php echo $_SESSION["datosLibro"]["imagen"];?>' alt="MDN" />
 <a href="index.php" >Ir a reservar</a>
     </body>
 

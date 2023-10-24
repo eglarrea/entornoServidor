@@ -24,9 +24,9 @@ define('ERROR_CLASS_FIELD', "is-invalid");
 define('CLAVE_SESSION_ALQUILER', "datosAlquiler");
 
 /**
- * Constante que define el estilo de campo invalido
+ * Constante que define el numero maximo de libros que puede reservar un usuario
  */
-define('NUMERO_RESERVAS_MAXIMAS_PERMITIDAS', 4);
+define('NUMERO_RESERVAS_MAXIMAS_PERMITIDAS', 2);
 
 /**
  * Constante para indicar el número maximo de dias permitodos para tener un libro

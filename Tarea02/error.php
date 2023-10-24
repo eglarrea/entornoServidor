@@ -27,8 +27,8 @@
         <!-- Contenedor que alberga el container con el error-->
         <div class="container">
             <div class="alert alert-danger" role="alert">
-                <?php echo  $_SESSION["errorConfiguracion"]?>
-                <?php  unset($_SESSION["errorConfiguracion"]);?>
+                <?php echo $_SESSION["errorConfiguracion"]?>
+                <?php unset($_SESSION["errorConfiguracion"]);?>
             </div>
         </div>
     </body>
