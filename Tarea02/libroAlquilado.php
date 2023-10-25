@@ -32,10 +32,20 @@ include_once('./lib/constComunes.php');
         header("Location:index.php");
     }
 ?>
-<h1>Nombre de Usuario: <?php echo $_SESSION["datosAlquiler"]['nombre'];?></h1>
-<h1>Fecha de devolución:<?php  echo $_SESSION["datosAlquiler"]['libros']['fecha'];?></h1>
-<h1>DNI: <?php echo $_SESSION["datosAlquiler"]['dni'];?></h1>
-<img src='<?php echo $_SESSION["datosLibro"]["imagen"];?>' alt="MDN" />
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Nombre de Usuario: <?php echo $_SESSION["datosAlquiler"]['nombre'];?></h1>
+            <h1>Fecha de devolución:<?php echo date("d/m/Y",strtotime($_SESSION["datosAlquiler"]['libros']['fecha']."+ ".NUMERO__MAXIMO_DIAS."days")); ?></h1>
+            <h1>DNI: <?php echo $_SESSION["datosAlquiler"]['dni'];?></h1>
+        </div>       
+        <div class="col-md-6">
+        <img width="50%" src='<?php echo $_SESSION["datosLibro"]["imagen"];?>' alt="MDN" />
+        </div>       
+    </div>   
+</div>   
+
+
 <a href="index.php" >Ir a reservar</a>
     </body>
 
