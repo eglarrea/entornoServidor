@@ -2,16 +2,21 @@
 /**
  * Libreria donde se declararan las constantes comunes a toda la aplicación
  */
+define('ROUTE_PADRE','../');
 
+define('ROUTE_LIB',ROUTE_PADRE.'lib/');
+define('ROUTE_VIEWS',ROUTE_PADRE."views/");
+define('ROUTE_MODEL',ROUTE_PADRE."model/");
+define('ROUTE_CONTROLLER',ROUTE_PADRE."controller/");
 /**
  * Constante que define la ruta de acceso al json de libros
  */
-define('ROUTE_FILE_DATA_LIBROS', "./model/files/libros.json");
+define('ROUTE_FILE_DATA_LIBROS', ROUTE_MODEL."files/libros.json");
 
 /**
  * Constante que define la ruta de acceso al json de reservas
  */
-define('ROUTE_FILE_DATA_RESERVAS', "./model/files/reservas.json");
+define('ROUTE_FILE_DATA_RESERVAS', ROUTE_MODEL."files/reservas.json");
 
 /**
  * Constante que define el estilo de campo invalido

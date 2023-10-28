@@ -94,10 +94,6 @@ function guardarReservar($datosFormulario){
         }
     }
 }
-
-//isUsuarioLibroSuperaFechaDevolucion('11111111h');
-/*getUsuarioTieneEseLibro('11111111H','9788401032004');
-$a="";*/
 ?>
 
 

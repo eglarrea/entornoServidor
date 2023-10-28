@@ -1,5 +1,5 @@
 <?php
-include('./lib/funcComunes.php');
+include(ROUTE_LIB.'funcComunes.php');
 
 $arrayErrorGene ="";
 
@@ -55,7 +55,7 @@ function validarFormulario() {
   global $arrayMensPerson;
   global $arrayTextosError;
   global $arrayErrorGene;
-
+  
   if (empty($_POST["nombre"]) || trim($_POST["nombre"])==''){
     $arrayErrClass['nombreErrClass']=ERROR_CLASS_FIELD;
     $arrayMensPerson['nombre']=$arrayTextosError['nombre'];
@@ -150,6 +150,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $existeUsuario=getUsuarioByDNI($arrayFormulario['dni']);
         if(gettype($existeUsuario)=="boolean"){
           guardarReservar($arrayFormulario);
+          $_SESSION[CLAVE_SESSION_ALQUILER] = $arrayFormulario;
+          $_SESSION["datosLibro"] =  $existeLibro;              
+                header("Location:libroAlquilado.php");
         }else{
           $numeroReservas=getUsuarioCantidadReservas($arrayFormulario['dni']);
           if($numeroReservas==true){
@@ -168,7 +171,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
           }else{
             $arrayErrorGene=$arrayTextosError['reservasMaximas'];
           }
-      }
+        }
     }else{
       $arrayErrorGene=$arrayTextosError['todosReservado'];
     }

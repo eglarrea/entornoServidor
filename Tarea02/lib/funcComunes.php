@@ -1,5 +1,5 @@
 <?php
-include_once("./lib/constComunes.php");
+include_once("../lib/constComunes.php");
 
 /**
  * Funcion leer un fichero de una ruta y descodificar el fichero json
@@ -17,7 +17,7 @@ function obtenerFicheroJson($rutaFichero){
     } catch (Exception $e) {
         session_start();
         $_SESSION["errorConfiguracion"] = $e->getMessage();
-        header("Location:error.php");
+        header("Location:".ROUTE_PADRE."error.php");
     }
 }
 
@@ -72,8 +72,7 @@ function is_valid_email($str)
   return (false !== filter_var($str, FILTER_VALIDATE_EMAIL));
 }
 
-
-include("./model/librosModel.php");
-include("./model/reservasModel.php");
+include(ROUTE_MODEL."librosModel.php");
+include(ROUTE_MODEL."reservasModel.php");
 
 ?>
