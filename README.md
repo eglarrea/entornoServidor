@@ -1,3 +1,3 @@
 # entornoServidor
 Egoitz Larrea
-Tarea evaluativa 02
+Repositorio para tareas evaluativas
